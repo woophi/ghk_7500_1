@@ -62,11 +62,31 @@ export const App = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (!answerData && !showBs) {
+      window.gtag('event', '7500_selection_impression', { var: 'var2' });
+    }
+
+    if (answerData) {
+      window.gtag('event', '7500_event_impression', { var: 'var1', question: answerData.question.question });
+    }
+
+    if (showBs && answerData) {
+      window.gtag('event', '7500_bet_impression', { var: 'var1', question: answerData.question.question });
+    }
+  }, [answerData, showBs]);
+
   const setStake = (value: number) => {
     setStakeAmount(Math.max(0, value));
   };
 
   const submit = () => {
+    window.gtag('event', '7500_bet_click', {
+      var: 'var1',
+      question: answerData!.question.question,
+      answer: answerData!.answer,
+      bet_size: stakeAmount.toString(),
+    });
     window.location.replace(LINK);
   };
 
@@ -108,6 +128,11 @@ export const App = () => {
             style={{ backgroundColor: '#8EE29C' }}
             view="secondary"
             onClick={() => {
+              window.gtag('event', '7500_answer_click_event', {
+                var: 'var1',
+                question: answerData.question.question,
+                answer: 'yes',
+              });
               setAnswerData({ question: answerData.question, answer: 'yes' });
               setShowBs(true);
             }}
@@ -120,6 +145,11 @@ export const App = () => {
             style={{ backgroundColor: '#FCB1A7' }}
             view="secondary"
             onClick={() => {
+              window.gtag('event', '7500_answer_click_event', {
+                var: 'var1',
+                question: answerData.question.question,
+                answer: 'no',
+              });
               setAnswerData({ question: answerData.question, answer: 'no' });
               setShowBs(true);
             }}
@@ -267,6 +297,11 @@ export const App = () => {
                 style={{ backgroundColor: '#8EE29C' }}
                 view="secondary"
                 onClick={() => {
+                  window.gtag('event', '7500_answer_click_selection', {
+                    var: 'var1',
+                    question: question.question,
+                    answer: 'yes',
+                  });
                   setAnswerData({ question, answer: 'yes' });
                 }}
               >
@@ -278,6 +313,11 @@ export const App = () => {
                 style={{ backgroundColor: '#FCB1A7' }}
                 view="secondary"
                 onClick={() => {
+                  window.gtag('event', '7500_answer_click_selection', {
+                    var: 'var1',
+                    question: question.question,
+                    answer: 'no',
+                  });
                   setAnswerData({ question, answer: 'no' });
                 }}
               >
