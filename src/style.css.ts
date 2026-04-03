@@ -117,6 +117,7 @@ const sheetSubmitButton = style({
 const img = style({
   overflow: 'hidden',
   borderRadius: '16px',
+  flexShrink: 0,
 });
 
 export const appSt = {
